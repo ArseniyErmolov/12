@@ -1,0 +1,14 @@
+function F_Sequence(n)
+    if n < 3 return 1
+    else
+        cur = 0
+	a = 1
+	b = 1
+        for i in 1:(n-2)
+            cur = a + b
+            a = b
+            b = cur
+        end
+        return cur
+    end
+end

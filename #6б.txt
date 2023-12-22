@@ -1,0 +1,109 @@
+moves = Vector()
+
+function check(robot, x, y):nothing
+    if (x == 0 || y == 0)
+        putmarker!(robot)
+    end
+end
+
+function changes(robot, d, x, y):nothing
+    if d == Nord
+        y += 1
+    elseif d == Sud
+        y -= 1
+    elseif d == Ost
+        x += 1
+    else
+        x -= 1
+    end
+    return x, y
+end
+
+function start_pos(robot, x, y):nothing
+    while (!isborder(robot, Nord) || !isborder(robot, Ost))
+        if !isborder(robot, Nord)
+            move!(robot, Nord)
+            x, y = changes(robot, Nord, x, y)
+            push!(moves, Nord)
+        end
+        if !isborder(robot, Ost)
+            move!(robot, Ost)
+            x, y = changes(robot, Ost, x, y)
+            push!(moves, Ost)
+        end
+    end
+    return x, y
+end
+
+function go(robot, d1, d2, d3, x, y):nothing
+    flag = true
+    while flag
+        while isborder(robot, d1) && !isborder(robot, d2)
+            move!(robot, d2)
+            x, y = changes(robot, d2, x, y)
+            push!(moves, d2)
+            check(robot, x, y)
+        end
+        while isborder(robot, d2) && flag
+            if isborder(robot, d3)
+                while !isborder(robot, d1)
+                    move!(robot, d1)
+                    x, y = changes(robot, d1, x, y)
+                    push!(moves, d1)
+                end
+                flag = false
+            end
+            if flag
+                move!(robot, d3)
+                x, y = changes(robot, d3, x, y)
+                push!(moves, d3)
+            end
+        end
+        if flag
+            if !isborder(robot, d2)
+                move!(robot, d2)
+                x, y = changes(robot, d2, x, y)
+                push!(moves, d2)
+            end
+            while isborder(robot, d1)
+                move!(robot, d2)
+                x, y = changes(robot, d2, x, y)
+                push!(moves, d2)
+            end
+            while !isborder(robot, d1)
+                move!(robot, d1)
+                x, y = changes(robot, d1, x, y)
+                push!(moves, d1)
+            end
+            check(robot, x, y)
+        end
+    end
+    return x, y
+end
+
+function go_back_i_want_to_be_monkey(robot):nothing
+    moves_revers = reverse(moves) 
+    for i in moves_revers
+        if i == Nord
+            move!(robot, Sud)
+        elseif i == Sud
+            move!(robot, Nord)
+        elseif i == Ost
+            move!(robot, West)
+        else
+            move!(robot, Ost)
+        end
+    end
+end
+
+function result(robot):nothing
+    x = 0
+    y = 0
+    x, y = start_pos(robot, x, y)
+    x, y = go(robot, Nord, Ost, Sud, x, y)
+    x, y = go(robot, Ost, Sud, West, x, y)
+    x, y = go(robot, Sud, West, Nord, x ,y)
+    x, y = go(robot, West, Nord, Ost, x, y)
+    x, y = go(robot, Nord, Ost, Sud, x, y)
+    go_back_i_want_to_be_monkey(robot)
+end

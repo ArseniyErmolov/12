@@ -1,0 +1,28 @@
+function inverse(side)
+    if side == Nord return Sud
+    elseif side == Sud return Nord
+    else return side == West ? Ost : West
+    end
+end
+
+function can_move!(robot, side)
+    move!(robot, side)
+    flag = ismarker(robot)
+    if !flag return true
+    else
+        move!(robot, inverse(side))
+        return false
+    end
+    return false
+end
+
+function go_labirint!(robot, last = 0)
+    if last == 0 putmarker!(robot) end
+    for i in (Nord, Ost, Sud, West)
+        if inverse(i) != last && can_move!(robot, i)
+            putmarker!(robot)
+            go_labirint!(robot, i)
+            move!(robot, inverse(i))
+        end
+    end
+end

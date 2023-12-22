@@ -1,0 +1,26 @@
+using HorizonSideRobots
+r = Robot(animate=true)
+
+function inverse(side)
+    if side == Nord return Sud
+    elseif side == Sud return Nord
+    else return side == West ? Ost : West
+    end
+end
+
+used = Set{Tuple{Int, Int}}([(0, 0)])
+
+function go_labirint!(robot, last = 0, x = 0, y = 0)
+    if last == 0 putmarker!(robot) end
+    for i in (Nord, Ost, Sud, West)
+        newx = x + (i == Ost ? 1 : (i == West ? -1 : 0))
+        newy = y + (i == Nord ? 1 : (i == Sud ? -1 : 0))
+        if inverse(i) != last && !isborder(robot, i) && !((newx, newy) in used)
+            move!(robot, i)
+            push!(used, (newx, newy))
+            if abs(newx) == abs(newy) putmarker!(robot) end
+            go_labirint!(robot, i, newx, newy)
+            move!(robot, inverse(i))
+        end
+    end
+end

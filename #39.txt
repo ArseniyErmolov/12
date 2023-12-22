@@ -1,0 +1,73 @@
+function changeXY(side, x, y)
+    if side == Nord
+        return (x, y + 1)
+    elseif side == Ost
+        return (x + 1, y)
+    elseif side == Sud
+        return (x, y - 1)
+    else
+        return (x - 1, y)
+    end
+end
+
+function go_p!(robot)
+    Sides = (Nord, Ost, Sud, West)
+    flag = true
+    for side in Sides
+        flag = flag && isborder(robot, side)
+    end
+    !flag ? flag = true : return true   
+    x, y = 0, 0
+    moves = Vector{Tuple{Int, Int}}()
+    i, id = 0, 0    # [id] -> вперед, [id + 1] -> вправо
+    prev_id, pred_len = -1, -1
+    sum = 0         # сумма углов
+    while (length(moves) == 0) || (2 * i != length(moves))
+        if (ismarker(robot)) break end
+        check = true
+        if isborder(robot, Sides[1 + (id + 1) % 4])
+            flag = isborder(robot, Sides[1 + id])
+            if flag
+                id = (id + 1) % 4
+            else
+                move!(robot, Sides[1 + id])
+                x, y = changeXY(Sides[1 + id], x, y)
+            end
+        elseif !flag
+            move!(robot, Sides[1 + (id + 1) % 4])
+            x, y = changeXY(Sides[1 + (id + 1) % 4], x, y)
+            id = (id + 1) % 4
+        else
+            check = false
+            for j in 0:3
+                isborder(robot, Sides[1 + (id + 1) % 4]) ? break :
+                id = (id + 1) % 4
+            end
+        end
+        if (length(moves) == 0) push!(moves, (x, y))
+        elseif ((x, y) != moves[end]) push!(moves, (x, y))
+        end
+        if (length(moves) != 1) && (pred_len != length(moves))
+            i = (moves[i+1] == moves[end]) ? i += 1 : 0
+        end
+        if check && (prev_id != id) && (prev_id != -1)
+            if flag
+                sum -= 90
+            else
+                sum += 90
+            end
+            println(sum)
+        end   
+        prev_id = id
+        pred_len = length(moves)
+    end
+    return (sum <= 0)
+end
+
+function in_out!(robot)
+    if go_p!(robot)
+        println("Робот внутри лабиринта")
+    else
+        println("Робот снаружи лабиринта")
+    end
+end

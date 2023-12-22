@@ -1,0 +1,17 @@
+function result(robot):nothing
+    k = 1
+    flag = isborder(robot, Nord)
+    while flag
+        for i in 1:k
+            move!(robot, Ost)
+        end
+        flag = isborder(robot, Nord)
+        if flag
+            for i in 1:(k + 1)
+                move!(robot, West)
+            end
+        end
+        flag = isborder(robot, Nord)
+        k += 2
+    end
+end
