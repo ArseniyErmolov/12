@@ -1,5 +1,3 @@
-#stop_condition = ismarker
-
 function along!(stop_condition::Function, robot, side, k)
     for i in 1:k
         if stop_condition(robot) return end
