@@ -52,7 +52,7 @@ function go(robot, d1, d2, d3):nothing
     end
 end
 
-function go_back_i_want_to_be_monkey(robot):nothing
+function go_back(robot):nothing
     moves_revers = reverse(moves) 
     for i in moves_revers
         if i == Nord
@@ -74,5 +74,5 @@ function result(robot):nothing
     go(robot, Sud, West, Nord)
     go(robot, West, Nord, Ost)
     go(robot, Nord, Ost, Sud)
-    go_back_i_want_to_be_monkey(robot)
+    go_back(robot)
 end
