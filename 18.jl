@@ -1,5 +1,3 @@
-#stop_condition = ismarker
-
 Sides = (Nord, Ost, Sud, West)
 
 function along!(stop_condition::Function, robot, id, k)
