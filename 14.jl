@@ -6,7 +6,7 @@ function check(robot, x, y)
     end
 end
 
-function go_back_i_want_to_be_monkey(robot)
+function go_back(robot)
     moves_revers = reverse(moves) 
     for i in moves_revers
         if i == Nord
@@ -106,5 +106,5 @@ function snake!(robot, (move_side, next_row_side)::NTuple{2,HorizonSide}=(Ost, N
         push!(moves, West)
         check(robot, x, y)
     end
-    go_back_i_want_to_be_monkey(robot)
+    go_back(robot)
 end
