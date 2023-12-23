@@ -4,7 +4,7 @@ function check(robot, x, y):nothing
     end
 end
 
-function go_back_i_want_to_be_monkey(robot, x, y):nothing
+function go_back(robot, x, y):nothing
     while x > 0
         move!(robot, West)
         x -= 1
@@ -50,5 +50,5 @@ function result(robot):nothing
             dir = Ost
         end
     end
-    go_back_i_want_to_be_monkey(robot, x, y)
+    go_back(robot, x, y)
 end
