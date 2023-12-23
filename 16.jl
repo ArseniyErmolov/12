@@ -1,4 +1,3 @@
-# isborder = stop_condition()
 function shuttle!(stop_condition::Function, robot, side)
     k = 1
     side2 = (side == Nord) ? West : Nord 
