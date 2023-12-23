@@ -1,5 +1,4 @@
-#stop_condition = ismarker
-#stop_condition_2 = isborder
+
 Sides = (Nord, Ost, Sud, West)
 
 
