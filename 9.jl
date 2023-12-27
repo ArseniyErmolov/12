@@ -1,10 +1,10 @@
-function check(robot, x, y):nothing
+function check(robot, x, y)
     if ((x + y) % 2 == 0)
         putmarker!(robot)
     end
 end
 
-function go_back(robot, x, y):nothing
+function go_back(robot, x, y)
     while x > 0
         move!(robot, West)
         x -= 1
@@ -15,7 +15,7 @@ function go_back(robot, x, y):nothing
     end
 end
 
-function result(robot):nothing
+function result(robot)
     x = 0
     y = 0
     while !isborder(robot, West)
